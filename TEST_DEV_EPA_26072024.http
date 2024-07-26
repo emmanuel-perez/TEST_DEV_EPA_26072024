@@ -1,0 +1,6 @@
+@TEST_DEV_EPA_26072024_HostAddress = http://localhost:5192
+
+GET {{TEST_DEV_EPA_26072024_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
