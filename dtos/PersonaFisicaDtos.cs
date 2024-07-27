@@ -1,11 +1,12 @@
 
 using System.ComponentModel.DataAnnotations;
+using TEST_DEV_EPA_26072024.utilities;
 
 namespace TEST_DEV_EPA_26072024.dtos {
 
     public class AddPersonaFisicaDto
     {
-        public DateTime FechaRegistro {get; set;} 
+        public DateTime FechaRegistro {get; set;}
         public DateTime FechaActualizacion {get; set;}
 
         [Required]
@@ -21,7 +22,7 @@ namespace TEST_DEV_EPA_26072024.dtos {
         [StringLength(13, MinimumLength=13, ErrorMessage="El RFC debe tener 13 caracteres")]
         public string RFC {get; set;}
 
-        [CustomValidation(typeof(AddPersonaFisicaDto),"ValidateFechaNacimiento")]
+        [CustomValidation(typeof(ValidationUtilities), nameof(ValidationUtilities.ValidateFechaNacimiento))]
         public DateTime FechaNacimiento {get; set;}
         public int UsuarioAgrega {get; set;} = 0;
 
@@ -32,11 +33,34 @@ namespace TEST_DEV_EPA_26072024.dtos {
             RFC??="";
         }
 
-        public static ValidationResult ValidateFechaNacimiento(DateTime fechaNacimiento){
-            if (fechaNacimiento > DateTime.Now){
-                return new ValidationResult("FechaNacimiento no puede ser en el futuro");
-            }
-            return ValidationResult.Success!;
+    }
+
+    public class UpadatePersonaFisicaDto
+    {
+        public DateTime FechaRegistro {get; set;} 
+
+        [Required]
+        public DateTime FechaActualizacion {get; set;}=DateTime.Now;
+
+        public string Nombre {get; set;}
+
+        public string ApellidoPaterno {get; set;}
+
+        public string ApellidoMaterno {get; set;}
+
+        [StringLength(13, MinimumLength=13, ErrorMessage="El RFC debe tener 13 caracteres")]
+        public string RFC {get; set;}
+
+        [CustomValidation(typeof(ValidationUtilities), nameof(ValidationUtilities.ValidateFechaNacimiento))]
+        public DateTime FechaNacimiento {get; set;}
+
+        public int UsuarioAgrega {get; set;} = 0;
+
+        public UpadatePersonaFisicaDto(){
+            Nombre??="";
+            ApellidoPaterno??="";
+            ApellidoMaterno??="";
+            RFC??="";
         }
 
     }
