@@ -3,6 +3,7 @@ using Dapper;
 using TEST_DEV_EPA_26072024.context;
 using TEST_DEV_EPA_26072024.contracts;
 using TEST_DEV_EPA_26072024.dtos;
+using TEST_DEV_EPA_26072024.models;
 
 namespace TEST_DEV_EPA_26072024.repository {
 
@@ -36,6 +37,27 @@ namespace TEST_DEV_EPA_26072024.repository {
             IDbConnection connection = _context.CreateConnection();
             int rowsAffected = await connection.ExecuteAsync(sql);
             return rowsAffected > 0;
+        }
+
+        public async Task<IEnumerable<PersonaFisica>>GetAllPersonasFisicas(){
+            string query = @"
+                SELECT * FROM dbo.Tb_PersonasFisicas
+                WHERE Activo = 1;
+            ";
+
+            IDbConnection connection = _context.CreateConnection();
+            return await connection.QueryAsync<PersonaFisica>(query);
+        }
+        
+        public async Task<PersonaFisica>GetPersonaFisicaById(int personaFisicaId){
+            string query = @$"
+                SELECT * FROM dbo.Tb_PersonasFisicas
+                WHERE IdPersonaFisica = { personaFisicaId } AND Activo = 1;
+            ";
+
+            IDbConnection connection = _context.CreateConnection();
+            PersonaFisica? personaFisica = await connection.QueryFirstOrDefaultAsync<PersonaFisica>(query);
+            return personaFisica;
         }
 
     }

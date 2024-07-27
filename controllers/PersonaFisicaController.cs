@@ -2,20 +2,25 @@
 using Microsoft.AspNetCore.Mvc;
 using TEST_DEV_EPA_26072024.contracts;
 using TEST_DEV_EPA_26072024.dtos;
+using TEST_DEV_EPA_26072024.models;
 
-namespace TEST_DEV_EPA_26072024.controllers {
+namespace TEST_DEV_EPA_26072024.controllers
+{
 
     [Route("api/personas-fisicas")]
     [ApiController]
-    public class PersonaFisicaController: ControllerBase {
+    public class PersonaFisicaController : ControllerBase
+    {
         private readonly IPersonaFisicaRepository _repository;
 
-        public PersonaFisicaController (IPersonaFisicaRepository repository) {
+        public PersonaFisicaController(IPersonaFisicaRepository repository)
+        {
             _repository = repository;
         }
 
         [HttpGet("get-date")]
-        public async Task<IActionResult>GetDate(){
+        public async Task<IActionResult> GetDate()
+        {
             try
             {
                 DateTime date = await _repository.GetDate();
@@ -39,7 +44,8 @@ namespace TEST_DEV_EPA_26072024.controllers {
             try
             {
 
-                if ( personaFisicaToAdd.RFC.Length != 13 ) {
+                if (personaFisicaToAdd.RFC.Length != 13)
+                {
                     return StatusCode(400, "El RFC debe de tener 13 caracteres");
                 }
 
@@ -51,6 +57,48 @@ namespace TEST_DEV_EPA_26072024.controllers {
             {
                 Console.WriteLine(ex);
                 return StatusCode(500, "error al guardar PersonaFisica en la base de datos");
+            }
+        }
+
+        [HttpGet("")]
+        public async Task<IActionResult> GetAllPersonasFisicas()
+        {
+            try
+            {
+                IEnumerable<PersonaFisica> personaFisicas = await _repository.GetAllPersonasFisicas();
+                return Ok(personaFisicas);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return StatusCode(500, "Error al consultar datos de PersonasFisicas");
+            }
+        }
+
+        [HttpGet("/{personaFisicaId}")]
+        public async Task<IActionResult> GetPersonaFisicaById(int personaFisicaId)
+        {
+
+            if (personaFisicaId <= 0){
+                return BadRequest("El ID de PersonaFisica debe de ser un numero entero positivo");
+            }
+
+            try
+            {
+                PersonaFisica personaFisica = await _repository.GetPersonaFisicaById(personaFisicaId);
+
+                if (personaFisica == null)
+                {
+                    return BadRequest($"PersonaFisica con id: {personaFisicaId} no encontrada");
+                }
+
+                return Ok(personaFisica);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return StatusCode(500, "Error al consultar datos de PersonaFisica");
             }
         }
 
