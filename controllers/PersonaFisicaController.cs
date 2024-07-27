@@ -18,21 +18,6 @@ namespace TEST_DEV_EPA_26072024.controllers
             _repository = repository;
         }
 
-        [HttpGet("get-date")]
-        public async Task<IActionResult> GetDate()
-        {
-            try
-            {
-                DateTime date = await _repository.GetDate();
-                return Ok(date);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                return StatusCode(500, "failed to return ");
-            }
-        }
-
         [HttpPost("")]
         public async Task<IActionResult> AddPersonaFisica([FromBody] AddPersonaFisicaDto personaFisicaToAdd)
         {
@@ -79,7 +64,8 @@ namespace TEST_DEV_EPA_26072024.controllers
         public async Task<IActionResult> GetPersonaFisicaById(int personaFisicaId)
         {
 
-            if (personaFisicaId <= 0){
+            if (personaFisicaId <= 0)
+            {
                 return BadRequest("El ID de PersonaFisica debe de ser un numero entero positivo");
             }
 
@@ -101,6 +87,32 @@ namespace TEST_DEV_EPA_26072024.controllers
                 return StatusCode(500, "Error al consultar datos de PersonaFisica");
             }
         }
+
+        [HttpDelete("{personaFisicaId}")]
+        public async Task<IActionResult> DeletePersonaFisica(int personaFisicaId)
+        {
+            if (personaFisicaId <= 0)
+            {
+                return BadRequest("El ID de PersonaFisica debe de ser un numero entero positivo");
+            }
+
+            try
+            {
+                bool personaFisicaDeleted = await _repository.DeletePersonaFisica(personaFisicaId);
+
+                if (!personaFisicaDeleted)
+                {
+                    return NotFound($"PersonaFisica con id: {personaFisicaId} no encontrada o ya está inactiva.");
+                }
+                return Ok("Persona fisica eliminada exitosamente");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return StatusCode(500, $"Error al eliminar PersonaFisica con id {personaFisicaId}");
+            }
+        }
+
 
     }
 }
