@@ -113,6 +113,25 @@ namespace TEST_DEV_EPA_26072024.controllers
             }
         }
 
+        [HttpPut("{personaFisicaId}")]
+        public async Task<IActionResult>UpdatePersonaFisica(int personaFisicaId, UpdatePersonaFisicaDto fieldsToUpdate){
+
+            if (personaFisicaId <= 0) {
+                return BadRequest("El ID de PersonaFisica debe de ser un entero positivo");
+            }
+
+            try
+            {
+                bool personaFisicaUpdated = await _repository.UpdatePersonaFisica(personaFisicaId, fieldsToUpdate);
+                return Ok("PersonaFisica actualizada exitosamente");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return StatusCode(500, "Error al actualizar PersonaFisica");
+            }
+        }
+
 
     }
 }

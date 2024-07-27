@@ -9,5 +9,6 @@ namespace TEST_DEV_EPA_26072024.contracts {
         Task<IEnumerable<PersonaFisica>>GetAllPersonasFisicas();
         Task<PersonaFisica>GetPersonaFisicaById(int personaFisicaId);
         Task<bool>DeletePersonaFisica(int personaFisicaId);
+        Task<bool> UpdatePersonaFisica(int personaFisicaId, UpdatePersonaFisicaDto fieldsToUpdate);
     }
 }
