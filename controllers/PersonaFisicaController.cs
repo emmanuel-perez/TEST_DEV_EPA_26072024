@@ -1,4 +1,5 @@
 
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using TEST_DEV_EPA_26072024.contracts;
 using TEST_DEV_EPA_26072024.dtos;
@@ -9,6 +10,7 @@ namespace TEST_DEV_EPA_26072024.controllers
 
     [Route("api/personas-fisicas")]
     [ApiController]
+    [EnableCors("AllowAllOrigins")] 
     public class PersonaFisicaController : ControllerBase
     {
         private readonly IPersonaFisicaRepository _repository;
