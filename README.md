@@ -9,10 +9,6 @@ Aplicación de ejemplo construida con ASP.NET Core y Dapper para manejar datos d
 Aplicación realizada con React, TypeScript y Redux, Bootstrap y CSS(SASS). Cuenta con autenticación de
 usuarios y además está comunicada a la API backend para realizar operaciones CRUD  de personas Físicas(Crear, Leer, Actualizar, Eliminar) y también incluye un módulo de reportes.
 
-# Link a aplicación Front End:
-## https://github.com/emmanuel-perez/Toka-App
-
-
 
 ## Contenidos
 
