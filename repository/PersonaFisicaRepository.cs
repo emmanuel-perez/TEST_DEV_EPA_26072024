@@ -18,25 +18,6 @@ namespace TEST_DEV_EPA_26072024.repository
             _context = context;
         }
 
-        //  !   IMPORTANTE
-            //  los StoredProcedures de eliminar y actualizar del archivo de scripts del archivo de las 
-            // pruebas tiene la condicion invertida ya que debería especificar que si NO existe el usuario Activo 
-            //  marque el error:
-
-            // IF EXISTS <---- Debería ser: IF NOT EXISTS
-            // (
-            //     SELECT*
-            //     FROM dbo.Tb_PersonasFisicas
-            //     WHERE IdPersonaFisica = @IdPersonaFisica
-            //           AND Activo = 1
-            // )
-            // BEGIN
-            //     SELECT @ERROR = 'La persona fisica no existe.';
-            //     THROW 50000, @ERROR, 1;
-            // END;
-
-            //  Entonces en esos dos Tasks hice mis propios sql scripts:
-
         public async Task<bool> AddPersonaFisica(AddPersonaFisicaDto personaFisicaToAdd)
         {
             string sql = @"
